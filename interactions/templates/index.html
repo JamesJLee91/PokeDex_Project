@@ -1,53 +1,75 @@
-<!-- interactions/templates/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Type Interactions</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .results-section {
+            margin-top: 20px;
+        }
+        .result-category {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .result-list {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-<body>
-    <h1>Pokemon Type Interactions</h1>
-    <form method="post">
+<body class="container">
+    <h1 class="text-center mt-5">Pokemon Type Interaction Guide</h1>
+    <form method="post" class="mt-3">
         {% csrf_token %}
-        <label for="type_input">Enter Pokemon Types (comma separated):</label>
-        <input type="text" id="type_input" name="type_input" value="{{ type_input }}">
-        <button type="submit">Submit</button>
+        <div class="form-group">
+            <label for="type_input">Enter Pokemon Types (comma separated):</label>
+            <input type="text" id="type_input" name="type_input" class="form-control" value="{{ type_input }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
     {% if resistance or weakness or super_effective or not_effective %}
-        <h2>Defensive Interactions</h2>
-        <p><strong>Resistances:</strong>
-            {% if resistance != "None" %}
-                {{ resistance.keys|join:", " }}
-            {% else %}
-                None
-            {% endif %}
-        </p>
-        <p><strong>Weaknesses:</strong>
-            {% if weakness != "None" %}
-                {{ weakness.keys|join:", " }}
-            {% else %}
-                None
-            {% endif %}
-        </p>
+        <div class="results-section">
+            <h2>Defensive Interactions</h2>
+            <div class="result-category">Resistances:</div>
+            <div class="result-list">
+                {% if resistance != "None" %}
+                    {{ resistance.keys|join:", " }}
+                {% else %}
+                    None
+                {% endif %}
+            </div>
+            <div class="result-category">Weaknesses:</div>
+            <div class="result-list">
+                {% if weakness != "None" %}
+                    {{ weakness.keys|join:", " }}
+                {% else %}
+                    None
+                {% endif %}
+            </div>
 
-        <h2>Offensive Interactions</h2>
-        <p><strong>Super effective against:</strong>
-            {% if super_effective != "None" %}
-                {{ super_effective.keys|join:", " }}
-            {% else %}
-                None
-            {% endif %}
-        </p>
-        <p><strong>No STAB coverage against:</strong>
-            {% if not_effective != "None" %}
-                {{ not_effective.keys|join:", " }}
-            {% else %}
-                None
-            {% endif %}
-        </p>
+            <h2>Offensive Interactions</h2>
+            <div class="result-category">Super effective against:</div>
+            <div class="result-list">
+                {% if super_effective != "None" %}
+                    {{ super_effective.keys|join:", " }}
+                {% else %}
+                    None
+                {% endif %}
+            </div>
+            <div class="result-category">No STAB coverage against:</div>
+            <div class="result-list">
+                {% if not_effective != "None" %}
+                    {{ not_effective.keys|join:", " }}
+                {% else %}
+                    None
+                {% endif %}
+            </div>
+        </div>
     {% endif %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
