@@ -1,0 +1,53 @@
+<!-- interactions/templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Type Interactions</title>
+</head>
+<body>
+    <h1>Pokemon Type Interactions</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="type_input">Enter Pokemon Types (comma separated):</label>
+        <input type="text" id="type_input" name="type_input" value="{{ type_input }}">
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if resistance or weakness or super_effective or not_effective %}
+        <h2>Defensive Interactions</h2>
+        <p><strong>Resistances:</strong>
+            {% if resistance != "None" %}
+                {{ resistance.keys|join:", " }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+        <p><strong>Weaknesses:</strong>
+            {% if weakness != "None" %}
+                {{ weakness.keys|join:", " }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+
+        <h2>Offensive Interactions</h2>
+        <p><strong>Super effective against:</strong>
+            {% if super_effective != "None" %}
+                {{ super_effective.keys|join:", " }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+        <p><strong>No STAB coverage against:</strong>
+            {% if not_effective != "None" %}
+                {{ not_effective.keys|join:", " }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+    {% endif %}
+</body>
+</html>
